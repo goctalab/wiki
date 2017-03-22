@@ -28,7 +28,7 @@ $wgSitename = "GoctaLab";
 $wgScriptPath = "/wiki";
 
 ## The protocol and server name to use in fully-qualified URLs
-$wgServer = "http://goctalab.org.pe";
+$wgServer = "http://localhost";
 
 ## The URL path to static resources (images, scripts, etc.)
 $wgResourceBasePath = $wgScriptPath;
@@ -53,7 +53,7 @@ $wgEmailAuthentication = true;
 $wgDBtype = "mysql";
 $wgDBserver = "localhost";
 $wgDBname = "goctalab_wiki";
-$wgDBuser = "user";
+$wgDBuser = "goctalab_admin";
 $wgDBpassword = "pass";
 
 # MySQL specific settings
@@ -71,9 +71,13 @@ $wgMemCachedServers = [];
 
 ## To enable image uploads, make sure the 'images' directory
 ## is writable, then set this to true:
-$wgEnableUploads = false;
+$wgEnableUploads = true;
 $wgUseImageMagick = true;
 $wgImageMagickConvertCommand = "/usr/bin/convert";
+$wgFileExtensions = array( 'png', 'gif', 'jpg', 'jpeg', 'doc',
+    'xls', 'mpp', 'pdf', 'ppt', 'tiff', 'bmp', 'docx', 'xlsx',
+    'pptx', 'ps', 'odt', 'ods', 'odp', 'odg'
+);
 
 # InstantCommons allows wiki to use images from https://commons.wikimedia.org
 $wgUseInstantCommons = false;
@@ -94,7 +98,7 @@ $wgShellLocale = "en_US.utf8";
 #$wgCacheDirectory = "$IP/cache";
 
 # Site language code, should be one of the list in ./languages/data/Names.php
-$wgLanguageCode = "es";
+$wgLanguageCode = "en";
 
 $wgSecretKey = "638e057d366b9c936efce7f15ea1af10e06e7e3424d13b49643ae3aac7670f69";
 
@@ -120,6 +124,7 @@ $wgDiff3 = "/usr/bin/diff3";
 $wgGroupPermissions['*']['createaccount'] = false;
 $wgGroupPermissions['*']['edit'] = false;
 
+
 ## Default skin: you can change the default skin. Use the internal symbolic
 ## names, ie 'vector', 'monobook':
 $wgDefaultSkin = "vector";
@@ -135,3 +140,29 @@ wfLoadSkin( 'Vector' );
 # End of automatically generated settings.
 # Add more configuration options below.
 
+wfLoadExtension( 'PDFEmbed' );
+wfLoadExtension('EmbedVideo');
+
+wfLoadExtension( 'VisualEditor' );
+
+// Enable by default for everybody
+$wgDefaultUserOptions['visualeditor-enable'] = 1;
+
+// Optional: Set VisualEditor as the default for anonymous users
+// otherwise they will have to switch to VE
+// $wgDefaultUserOptions['visualeditor-editor'] = "visualeditor";
+
+// Don't allow users to disable it
+$wgHiddenPrefs[] = 'visualeditor-enable';
+
+$wgVirtualRestConfig['modules']['parsoid'] = array(
+	// URL to the Parsoid instance
+	// Use port 8142 if you use the Debian package
+	'url' => 'http://localhost:8142',
+	// Parsoid "domain", see below (optional)
+	'domain' => 'localhost',
+	// Parsoid "prefix", see below (optional)
+	'prefix' => 'localhost'
+);
+
+$wgShowExceptionDetails = flase;
